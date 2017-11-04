@@ -48,3 +48,100 @@
 
 >> : POST /auth/login
     
+> require
+
+    email : 유저 이메일
+    
+    pw : 유저 비밀번호
+
+> request
+
+    Error : 400 , "Error message"
+    
+    Success : 200 , user Schema
+    
+>> : POST /auth/register
+
+> require
+
+    email : 유저 이메일
+    
+    pw : 유저 비밀번호
+    
+    name : 유저 이름
+    
+> request
+
+    Error : 400 , "Error message"
+        
+    Success : 200 , user Schema
+    
+## /location
+
+>> : GET /location/payphone
+
+> require
+    
+    없음
+    
+> request
+
+    주변 공중전화 위치
+    
+>> : GET /location/chargingStation
+
+> require
+    
+    없음
+    
+> request
+
+    주변 전기차충전소 위치
+    
+## /pay
+
+>> : POST /pay/addCard
+
+> require
+
+    token : 유저 토큰
+    
+    cardNum : 카드 숫자 (0000-0000-0000-0000)
+    
+    cardPassword : 카드 비번 앞에 두자리
+    
+    cardBirthday : 유저 생년월일
+    
+    cardExpiry : 카드 만료기간 (2020-09)
+
+> response
+
+    Error : 500 , "error message"
+        
+    Success : 200
+
+>> : POST /pay/payment
+
+> require
+
+    token : 유저 토큰
+    
+    amount : 지불가격
+    
+> response
+
+    Error : 404 , "error message"
+        
+    Success : 200
+    
+>> : GET /pay/paymentList
+
+> require
+
+    token : 유저 토큰
+
+> response
+
+    Error : 404 , "error message"
+            
+    Success : 200 , history Schema

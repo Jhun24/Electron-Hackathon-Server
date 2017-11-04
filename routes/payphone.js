@@ -29,13 +29,27 @@ function payphone(app ,request) {
                 }
                 else{
                     for(var e = 0; e<parseData.length; e++){
-                        userData[num] = {
-                            "title":parseData[e]["title"].replace(/<b>/gm," ").replace(/<\/b>/gm," ").replace("(우 )"," ").replace(/\(옥외\)/gm," ").replace(/\(옥내\)/gm," "),
-                            "address":parseData[e]["address"].replace("<b>","").replace("</b>",""),
-                            "x":parseData[e]["mapx"],
-                            "y":parseData[e]["mapy"]
+                        console.log(parseData[e]["mapx"]+parseData[e]["mapy"]);
+                        var toWGSOptions = {
+                            url: 'https://dapi.kakao.com/v2/local/geo/transcoord.json?input_coord=KTM&output_coord=WGS84&x='+parseData[e]["mapx"]+'&y='+parseData[e]["mapy"],
+                            headers:{
+                                'Authorization':'KakaoAK 5ecdb774e3630f25df481e451635b2ac'
+                            }
                         };
-                        num++;
+
+
+                        request.get(toWGSOptions, (err, resp, bd)=>{
+                            if(err) throw err;
+                            console.log(bd)
+                            var json_loc = JSON.parse(bd);
+                            userData[num] = {
+                                "title":parseData[e]["title"].replace(/<b>/gm," ").replace(/<\/b>/gm," ").replace("(우 )"," ").replace(/\(옥외\)/gm," ").replace(/\(옥내\)/gm," "),
+                                "address":parseData[e]["address"].replace("<b>","").replace("</b>",""),
+                                "x":json_loc[0]["x"],
+                                "y":json_loc[0]["y"]
+                            };
+                            num++;
+                        });
                     }
                 }
 
@@ -44,7 +58,7 @@ function payphone(app ,request) {
 
         setTimeout(function () {
             res.send(userData);
-        },1000)
+        },5000)
     });
 }
 
