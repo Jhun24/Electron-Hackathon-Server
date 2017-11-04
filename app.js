@@ -47,7 +47,7 @@ var user = mongoose.Schema({
     cardPassword:String,
     cardBirthday:String,
     cardExpiry:String,
-    money:String
+    cardMoney:Number
 });
 
 var history = mongoose.Schema({
@@ -69,15 +69,20 @@ var LocSchema = mongoose.Schema({
     roadAddress : String,
     longitude : String,
     latitude : String
-})
+});
 
-
+var check = mongoose.Schema({
+    token:String,
+    date:String,
+    title:String
+});
 
 var LocData = mongoose.model('location', LocSchema);
 
 var userModel = mongoose.model('userModel',user);
 var historyModel = mongoose.model('historyModel',history);
-var payphoneModel = mongoose.model('payphoneModel',payphone)
+var payphoneModel = mongoose.model('payphoneModel',payphone);
+var checkModel = mongoose.model('checkModel',check);
 
 require('./routes/auth')(app,randomString,userModel);
 require('./routes/payphone')(app,request , payphoneModel,LocData)

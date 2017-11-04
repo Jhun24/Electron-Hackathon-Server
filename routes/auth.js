@@ -31,6 +31,7 @@ function auth(app, randomstring, userModel){
                     'name': profile.displayName,
                     'acessToken': profile.acessToken,
                     'token': randomstring.generate(16),
+                    'cardMoney':0,
                 });
 
                 newUser.save((err)=>{
@@ -92,6 +93,7 @@ function auth(app, randomstring, userModel){
         var email = req.body.email;
         var pw = req.body.pw;
         var name = req.body.name;
+        var money = 0;
 
         userModel.findOne({'email' : email}, (err, user)=>{
             if(err){
@@ -106,11 +108,11 @@ function auth(app, randomstring, userModel){
                         length: 16,
                         charset: 'numeric'
                     }),
+                    'cardMoney' : money,
                     'name': name,
                     'pw': pw,
                     'email': email,
                     'token': randomstring.generate(16),
-                    'money': "0"
                 });
 
                 newUser.save((err) => {
@@ -127,7 +129,6 @@ function auth(app, randomstring, userModel){
 
     app.post("/auth/local/authenticate", (req, res)=>{
         var token = req.body.token;
-
         userModel.findOne({'token' : token}, (err, user) => {
             if(err){
                 console.log("auth.js: user find err");
