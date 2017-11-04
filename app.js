@@ -46,7 +46,8 @@ var user = mongoose.Schema({
     cardNum:String,
     cardPassword:String,
     cardBirthday:String,
-    cardExpiry:String
+    cardExpiry:String,
+    money:String
 });
 
 var history = mongoose.Schema({
@@ -55,11 +56,31 @@ var history = mongoose.Schema({
     amount:String
 });
 
+var payphone = mongoose.Schema({
+    address:String,
+    x:String,
+    y:String,
+    title:String
+});
+
+var LocSchema = mongoose.Schema({
+    title : String,
+    address : String,
+    roadAddress : String,
+    longitude : String,
+    latitude : String
+})
+
+
+
+var LocData = mongoose.model('location', LocSchema);
+
 var userModel = mongoose.model('userModel',user);
 var historyModel = mongoose.model('historyModel',history);
+var payphoneModel = mongoose.model('payphoneModel',payphone)
 
 require('./routes/auth')(app,randomString,userModel);
-require('./routes/payphone')(app,request)
+require('./routes/payphone')(app,request , payphoneModel,LocData)
 require('./routes/pay')(app, userModel ,historyModel , iamporter , randomString , IamporterError);
 require('./routes/elecCar')(app,request,parseString);
 require('./routes/routes')(app);
