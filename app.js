@@ -38,14 +38,22 @@ var user = mongoose.Schema({
     pw: String,
     name: String,
     accessToken: String,
-    token: String,
-    money: String
+    token: String
+});
+
+var history = mongoose.Schema({
+    token:String,
+    date:String,
+    amount:String,
+    name:String
 });
 
 var userModel = mongoose.model('userModel',user);
+var historyModel = mongoose.model('historyModel',history);
 
 require('./routes/auth')(app,randomString,userModel);
-require('./routes/payphone')(app)
+require('./routes/payphone')(app,request)
+require('./routes/pay')(app,historyModel)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -62,7 +70,6 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
 });
 
 module.exports = app;
