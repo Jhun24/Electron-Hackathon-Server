@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 var randomString = require('randomstring');
 var session = require('express-session');
 var request = require("request");
+var parseString = require('xml2js').parseString;
 
 var app = express();
 
@@ -54,7 +55,7 @@ var historyModel = mongoose.model('historyModel',history);
 require('./routes/auth')(app,randomString,userModel);
 require('./routes/payphone')(app,request)
 require('./routes/pay')(app, userModel ,historyModel);
-require('./routes/elecCar')(app);
+require('./routes/elecCar')(app,request,parseString);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
