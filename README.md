@@ -131,9 +131,25 @@
 > response
 
     Error : 404 , "error message"
+    
+    Error : 409 , "error message"
         
     Success : 200
     
+>> : POST /pay/charge
+   
+> require
+
+    token : 유저 토큰
+    
+    amount : 충전할 금액
+    
+> response
+
+    Error : 404 , "error message"
+            
+    Success : 200
+ 
 >> : GET /pay/paymentList
 
 > require
