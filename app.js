@@ -53,7 +53,8 @@ var historyModel = mongoose.model('historyModel',history);
 
 require('./routes/auth')(app,randomString,userModel);
 require('./routes/payphone')(app,request)
-require('./routes/pay')(app,historyModel)
+require('./routes/pay')(app, userModel ,historyModel);
+require('./routes/elecCar')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
