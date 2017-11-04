@@ -1,7 +1,6 @@
 module.exports = auth;
 
-
-function auth(app, randomstrings, userModel){
+function auth(app, randomstring, userModel){
     var passport = require('passport');
     var FacebookTokenStrategy = require('passport-facebook-token');
 
@@ -31,7 +30,7 @@ function auth(app, randomstrings, userModel){
                     '_id': profile.id,
                     'name': profile.displayName,
                     'acessToken': profile.acessToken,
-                    'token': randomString.generate(16),
+                    'token': randomstring.generate(16),
                 });
 
                 newUser.save((err)=>{
@@ -107,14 +106,14 @@ function auth(app, randomstrings, userModel){
                 res.send(400,"user exist");
             }else{
                 var newUser = new userModel({
-                    '_id' : randomString.generate({
+                    '_id' : randomstring.generate({
                         length: 16,
                         charset: 'numeric'
                     }),
                     'name': name,
                     'pw': pw,
                     'email': email,
-                    'token': randomString.generate(16),
+                    'token': randomstring.generate(16),
                     'money': "0"
                 });
 

@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
 var randomString = require('randomstring');
+var session = require('express-session');
+var request = require("request");
 
 var app = express();
 
@@ -34,7 +36,8 @@ var user = mongoose.Schema({
 
 var userModel = mongoose.model('userModel',user);
 
-require('/routes/auth')(app,randomString,userModel);
+require('./routes/auth')(app,randomString,userModel);
+require('./routes/payphone')(app)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
