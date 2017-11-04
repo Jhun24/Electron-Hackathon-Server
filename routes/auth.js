@@ -47,10 +47,6 @@ function auth(app, randomstring, userModel){
         });
     }));
 
-    app.get('/', (req, res)=>{
-        res.send("auth!");
-    });
-
 
     app.get('/auth/fb/authenticate', passport.authenticate('facebook-token'), (req, res)=> {
         if(req.user) {

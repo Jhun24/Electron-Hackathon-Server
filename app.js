@@ -10,6 +10,7 @@ var randomString = require('randomstring');
 var session = require('express-session');
 var request = require("request");
 var parseString = require('xml2js').parseString;
+var { Iamporter, IamporterError } = require('iamporter');
 
 var app = express();
 
@@ -33,20 +34,25 @@ db.once('open', function callback () {
     console.log("Mongo DB ON");
 });
 
+var iamporter = new Iamporter();
+
 var user = mongoose.Schema({
     _id: String,
     email: String,
     pw: String,
     name: String,
     accessToken: String,
-    token: String
+    token: String,
+    cardNum:String,
+    cardPassword:String,
+    cardBirthday:String,
+    cardExpiry:String
 });
 
 var history = mongoose.Schema({
     token:String,
     date:String,
-    amount:String,
-    name:String
+    amount:String
 });
 
 var userModel = mongoose.model('userModel',user);
@@ -54,9 +60,9 @@ var historyModel = mongoose.model('historyModel',history);
 
 require('./routes/auth')(app,randomString,userModel);
 require('./routes/payphone')(app,request)
-require('./routes/pay')(app, userModel ,historyModel);
+require('./routes/pay')(app, userModel ,historyModel , iamporter , randomString , IamporterError);
 require('./routes/elecCar')(app,request,parseString);
-
+require('./routes/routes')(app);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
