@@ -22,6 +22,21 @@ function pay(app , userModel , historyModel , iamporter , randomstring , Iamport
         });
     });
 
+    app.get('/pay/userCard',(req,res)=>{
+        "use strict";
+        var token = req.query.token;
+
+        userModel.find({"token":token},(err,model)=>{
+            if(err) throw err;
+            if(model.length == 0){
+                res.send(404,"user not found")
+            }
+            else{
+                res.send(200,model);
+            }
+        });
+    });
+
     app.post('/pay/payment',(req,res)=>{
         "use strict";
         var data = req.body;
